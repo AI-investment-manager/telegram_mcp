@@ -34,7 +34,7 @@ class MessageRetrievalUseCase(ABC):
             date: 일자 (YYYY-MM-DD)
 
         Returns:
-            List[Message]: 해당 날짜의 메시지 목록
+            list[Message]: 해당 날짜의 메시지 목록
         """
 
     @abstractmethod
@@ -46,5 +46,5 @@ class MessageRetrievalUseCase(ABC):
             channel_id: 채널 username (@python) 또는 ID
 
         Returns:
-            List[Message]: 어제의 메시지 목록
+            list[Message]: 어제의 메시지 목록
         """
