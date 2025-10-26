@@ -2,7 +2,7 @@ from dependency_injector import containers, providers
 from src.adapter.outbound.telegram_api.repository.message import TelegramMessageRepository
 from src.application.service.message import MessageService
 from src.infrastructure.config import Config
-from telethon import TelegramClient
+from src.infrastructure.telegram_client import TelegramClient
 
 
 class Container(containers.DeclarativeContainer):
@@ -16,7 +16,7 @@ class Container(containers.DeclarativeContainer):
 
     telegram_client = providers.Singleton(
         TelegramClient,
-        session=config.provided.TELEGRAM_SESSION_NAME,
+        session_name=config.provided.TELEGRAM_SESSION_NAME,
         api_id=config.provided.TELEGRAM_API_ID,
         api_hash=config.provided.TELEGRAM_API_HASH,
     )
