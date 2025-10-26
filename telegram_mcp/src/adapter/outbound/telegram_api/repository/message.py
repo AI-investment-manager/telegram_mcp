@@ -46,12 +46,12 @@ class TelegramMessageRepository(MessagePort):
         """
 
         Args:
-            channel_id (str): _description_
+            channel_id (str): 채널 username (@python) 또는 ID
             start_ts (datetime): 시작 타임스탬프
             end_ts (datetime): 종료 타임스탬프
 
         Returns:
-            list[Message]: _description_
+            list[Message]: 해당 날짜 범위의 메시지 목록
         """
         messages = []
 
