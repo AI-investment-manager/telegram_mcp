@@ -80,13 +80,13 @@ async def get_latest_message(
 @inject
 async def get_messages_by_date(
     channel_id: str,
-    start_date: date,
+    date: date,
     message_retrieval_use_case: Annotated[MessageRetrievalUseCase, Depends(Provide[Container.message_service])],
 ):
     """
     특정 날짜의 메시지 조회
     """
-    messages = await message_retrieval_use_case.get_messages_by_date(channel_id, start_date)
+    messages = await message_retrieval_use_case.get_messages_by_date(channel_id, date)
     return [GetMessageResponse(**message.to_dict()) for message in messages]
 
 
