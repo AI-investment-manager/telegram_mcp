@@ -12,9 +12,9 @@ class TelegramMessageEntity:
 
     id: int
     message: str
-    date: datetime
     peer_name: str
     peer_id: int
+    _ts: datetime
 
     @classmethod
     def from_telethon(cls, data: Message) -> "TelegramMessageEntity":
@@ -41,7 +41,7 @@ class TelegramMessageEntity:
         return cls(
             id=data.id,
             message=data.message,
-            date=data.date,
+            _ts=data.date,
             peer_name=data.peer_id.to_dict()["_"],
             peer_id=_get_peer_id(data.peer_id),
         )

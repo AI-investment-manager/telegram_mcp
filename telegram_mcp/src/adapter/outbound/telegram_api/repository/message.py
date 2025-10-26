@@ -1,10 +1,11 @@
-from telethon import TelegramClient
+from datetime import datetime
 
 from src.adapter.outbound.telegram_api.entity.message import TelegramMessageEntity
 from src.adapter.outbound.telegram_api.mapper.message import TelegramMessageMapper
 from src.application.port.output.message import MessagePort
 from src.domain.entities.message import Message
 from src.infrastructure.exception import MessageNotFoundError
+from src.infrastructure.telegram_client import TelegramClient
 
 
 class TelegramMessageRepository(MessagePort):
@@ -32,9 +33,31 @@ class TelegramMessageRepository(MessagePort):
             MessageNotFoundError: 채널의 메시지가 없을 경우
         """
         async with self.telegram_client:
-            message = await self.telegram_client.get_messages(channel_id, limit=1)
+            message = await self.telegram_client.client.get_messages(channel_id, limit=1)
 
             if not message:
                 raise MessageNotFoundError(f"채널 {channel_id}의 메시지가 없습니다.")
 
             return TelegramMessageMapper.to_domain(TelegramMessageEntity.from_telethon(message[0]))
+
+    async def find_by_channel_and_date_range(
+        self, channel_id: str, start_ts: datetime, end_ts: datetime
+    ) -> list[Message]:
+        """
+
+        Args:
+            channel_id (str): _description_
+            start_ts (datetime): 시작 타임스탬프
+            end_ts (datetime): 종료 타임스탬프
+
+        Returns:
+            list[Message]: _description_
+        """
+        messages = []
+
+        async with self.telegram_client as c:
+            async for message in c.client.iter_messages(channel_id, offset_date=end_ts):
+                if message.date < start_ts:
+                    break
+                messages.append(TelegramMessageMapper.to_domain(TelegramMessageEntity.from_telethon(message)))
+        return messages

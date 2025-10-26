@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 
 @dataclass(frozen=True)
@@ -10,9 +11,9 @@ class Message:
 
     id: int
     message: str
-    date: datetime
     peer_name: str
     peer_id: int
+    _ts: datetime
 
     def to_dict(self) -> dict:
         """
@@ -21,6 +22,14 @@ class Message:
         return {
             "id": self.id,
             "message": self.message,
-            "date": self.date,
+            "ts": self.ts,
             "peer_id": self.peer_id,
+            "peer_name": self.peer_name,
         }
+
+    @property
+    def ts(self) -> datetime:
+        """
+        Message의 타임스탬프
+        """
+        return self._ts.replace(tzinfo=ZoneInfo("Asia/Seoul"))

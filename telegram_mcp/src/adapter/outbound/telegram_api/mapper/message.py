@@ -18,7 +18,7 @@ class TelegramMessageMapper:
         return Message(
             id=entity.id,
             message=entity.message,
-            date=entity.date,
             peer_name=entity.peer_name,
             peer_id=entity.peer_id,
+            _ts=entity._ts,
         )
