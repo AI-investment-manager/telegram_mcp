@@ -32,4 +32,4 @@ class Message:
         """
         Message의 타임스탬프
         """
-        return self._ts.replace(tzinfo=ZoneInfo("Asia/Seoul"))
+        return self._ts.astimezone(ZoneInfo("Asia/Seoul"))
