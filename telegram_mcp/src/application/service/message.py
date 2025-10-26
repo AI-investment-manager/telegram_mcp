@@ -41,7 +41,7 @@ class MessageService(MessageRetrievalUseCase):
             date: 일자 (YYYY-MM-DD)
 
         Returns:
-            List[Message]: 해당 날짜의 메시지 목록
+            list[Message]: 해당 날짜의 메시지 목록
         """
         start_ts = datetime.combine(date, datetime.min.time()).replace(tzinfo=ZoneInfo("Asia/Seoul"))
         end_ts = start_ts + timedelta(days=1)
@@ -55,7 +55,7 @@ class MessageService(MessageRetrievalUseCase):
             channel_id: 채널 username (@python) 또는 ID
 
         Returns:
-            List[Message]: 어제의 메시지 목록
+            list[Message]: 어제의 메시지 목록
         """
         end_ts = datetime.now(ZoneInfo("Asia/Seoul")).replace(hour=0, minute=0, second=0, microsecond=0)
         start_ts = end_ts - timedelta(days=1)
